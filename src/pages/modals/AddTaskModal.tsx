@@ -4,7 +4,7 @@ import Input from "../../components/common/Input";
 import TextFields from "../../components/common/TextFields";
 import { DateTimeField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import  { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import PrimaryBtn from "../../components/common/PrimaryBtn";
 import axios from "axios";
 import { showToastMessage } from "../../utils/helper";
@@ -42,6 +42,10 @@ const AddTaskModal = ({ open, handleClose, fetchData }: any) => {
   };
 
   const handleSubmit = () => {
+    if (!params?.title || !params?.description || !params?.deadline) {
+      showToastMessage("Fill form details correctly", "error");
+      return;
+    }
     const payload = {
       title: params?.title,
       description: params?.description,

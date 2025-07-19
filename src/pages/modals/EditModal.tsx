@@ -62,6 +62,11 @@ const EditModal = ({ open, handleClose, fetchData, data, id }: any) => {
       updatedAt: Date.now(),
     };
 
+    if (!params?.title || !params?.description || !params?.deadline) {
+      showToastMessage("Fill form details correctly", "error");
+      return;
+    }
+
     axios
       .put(`${process.env.REACT_APP_API_BASE_URL}/tasks/${data?.id}`, payload)
       .then((response) => {
