@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Task1",
+      "description": "Task",
+      "deadline": "2025-07-19T15:40:00.000Z",
+      "isCompleted": true,
+      "createdAt": 1752909420266,
+      "updatedAt": 1752914033770
+    },
+    {
+      "title": "Task2",
+      "description": "Hello",
+      "deadline": "2025-07-18T03:34:00.000Z",
+      "isCompleted": false,
+      "createdAt": 1752910454333,
+      "updatedAt": 1752910454333,
+      "id": 2
+    },
+    {
+      "title": "Task3",
+      "description": "Task3",
+      "deadline": "2025-07-19T07:42:00.000Z",
+      "isCompleted": false,
+      "createdAt": 1752910884648,
+      "updatedAt": 1752910884648,
+      "id": 3
+    },
+    {
+      "title": "Task4",
+      "description": "You're right — the getCountdownText() function is static and only called once when the component renders. This means it won't auto-update the countdown every second like a true real-time clock should.",
+      "deadline": "2025-07-19T15:30:00.000Z",
+      "isCompleted": false,
+      "createdAt": 1752912583962,
+      "updatedAt": 1752912583962,
+      "id": 4
+    }
+  ]
+}
