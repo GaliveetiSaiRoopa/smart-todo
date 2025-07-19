@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PrimaryBtn from "../components/common/PrimaryBtn";
 import axios from "axios";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import moment from "moment";
 import AddTaskModal from "./modals/AddTaskModal";
 import EditModal from "./modals/EditModal";
 import DeleteTaskModal from "./modals/DeleteTaskModal";
 import { showToastMessage } from "../utils/helper";
 import dayjs from "dayjs";
-
 
 const filters = [
   { name: "All" },
@@ -54,26 +48,26 @@ const TaskCard = ({
   return (
     <Card sx={{ mb: 2, backgroundColor: "#ffffff" }}>
       <CardContent>
-        <Typography variant="h5" mb={2}>
+        <Typography variant="h6" mb={1}>
           <strong>Title: </strong>
           {task.title}
         </Typography>
-        <Typography variant="h6" mb={2} color="text.primary">
+        <Typography variant="body1" mb={1} color="text.primary">
           <strong>Description:</strong> {task?.description}
         </Typography>
-        <Typography variant="h6" mb={2} color="text.primary">
+        <Typography variant="body1" mb={1} color="text.primary">
           <strong>Deadline:</strong>{" "}
           {moment(task?.deadline).format("DD-MM-YYYY HH:mm")}
         </Typography>
-        <Typography variant="h6" mb={2} color="text.primary">
+        <Typography variant="body1" mb={1} color="text.primary">
           <strong>Created At:</strong>{" "}
           {moment(task?.createdAt).format("DD-MM-YYYY HH:mm")}
         </Typography>
-        <Typography variant="h6" mb={2} color="text.primary">
+        <Typography variant="body1" mb={1} color="text.primary">
           <strong>Updated At:</strong>{" "}
           {moment(task?.updatedAt).format("DD-MM-YYYY HH:mm")}
         </Typography>
-        <Typography variant="h6" mb={2} color="text.primary">
+        <Typography variant="body1" mb={1} color="text.primary">
           <strong>Status: </strong>{" "}
           {task.isCompleted
             ? "Success"
@@ -82,7 +76,7 @@ const TaskCard = ({
             : "Ongoing"}
         </Typography>
         {!task.isCompleted && (
-          <Typography variant="h6" mb={2} color="text.primary">
+          <Typography variant="h6" mb={1} color="text.primary">
             {getCountdownText(task.deadline, currentTime)}
           </Typography>
         )}
@@ -111,7 +105,7 @@ const TaskCard = ({
 };
 
 const ToDoListing = () => {
-  const base_url = "http://localhost:3001";
+  const apiUrl = process.env.REACT_APP_API_BASE_URL;
   const [todoList, setTodoList] = useState<any>([]);
   const [taskFilters, setTaskFilters] = useState("All");
   const [addTask, setAddTask] = useState(false);
@@ -141,7 +135,7 @@ const ToDoListing = () => {
 
   const handleStatus = (taskId: number, currentStatus: boolean) => {
     axios
-      .patch(`${base_url}/tasks/${taskId}`, {
+      .patch(`${apiUrl}/tasks/${taskId}`, {
         isCompleted: !currentStatus,
         updatedAt: Date.now(),
       })
@@ -156,7 +150,7 @@ const ToDoListing = () => {
 
   const fetchData = () => {
     axios
-      .get(`${base_url}/api/tasks`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/tasks`)
       .then((response) => {
         setTodoList(response.data);
       })
@@ -196,10 +190,14 @@ const ToDoListing = () => {
 
   return (
     <div className="bg-[#ffffff] min-h-screen w-full flex flex-col lg:gap-8 gap-4 lg:px-20 px-6 overflow-y-scroll">
-      <div className="flex justify-between lg:pt-10 lg:pb-6 py-6 items-center">
-        <Typography variant="h4" sx={{ color: "#765996" }}>
+      <div className="flex justify-between lg:pt-10 lg:pb-2 py-6 items-center">
+        {/* <Typography variant="h4" sx={{ color: "#765996" }}>
           Smart Todo
-        </Typography>
+        </Typography> */}
+
+        <h1 className="font-serif lg:text-4xl text-2xl font-semibold text-[#765996]">
+          Smart Todo
+        </h1>
 
         <PrimaryBtn
           label="Add Task"
@@ -208,10 +206,10 @@ const ToDoListing = () => {
         />
       </div>
 
-      <div className="flex flex-col lg:gap-6 gap-3">
-        <Typography variant="h5" sx={{ color: "#765996" }}>
+      <div className="flex flex-col lg:gap-4 gap-3">
+        <h1 className="font-serif lg:text-3xl text-xl font-medium text-[#765996]">
           Task List ({filteredTasks.length})
-        </Typography>
+        </h1>
         <div className="flex gap-6">
           {filters.map((item) => (
             <button
@@ -223,9 +221,9 @@ const ToDoListing = () => {
               } py-2`}
               onClick={() => setTaskFilters(item.name)}
             >
-              <Typography variant="h6" sx={{ color: "#765996" }}>
-                {item.name}
-              </Typography>
+              <h1 className="font-serif lg:text-xl text-lg font-medium text-[#765996]">
+                {item?.name}
+              </h1>
             </button>
           ))}
         </div>

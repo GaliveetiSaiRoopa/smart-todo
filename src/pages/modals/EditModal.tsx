@@ -9,7 +9,6 @@ import PrimaryBtn from "../../components/common/PrimaryBtn";
 import axios from "axios";
 import { showToastMessage } from "../../utils/helper";
 
-
 const style = {
   position: "absolute",
   left: "50%",
@@ -64,7 +63,7 @@ const EditModal = ({ open, handleClose, fetchData, data, id }: any) => {
     };
 
     axios
-      .put(`http://localhost:3001/tasks/${data?.id}`, payload)
+      .put(`${process.env.REACT_APP_API_BASE_URL}/tasks/${data?.id}`, payload)
       .then((response) => {
         console.log(response);
         showToastMessage("Successfully Updated Task", "success");

@@ -18,7 +18,7 @@ const DeleteTaskModal = ({ open, handleClose, fetchData, id }: any) => {
   const handleDelete = () => {
     if (id) {
       axios
-        .delete(`http://localhost:3001/tasks/${id}`)
+        .delete(`${process.env.REACT_APP_API_BASE_URL}/tasks/${id}`)
         .then((response) => {
           console.log(response);
           showToastMessage("Successfully Deleted Task", "success");
@@ -48,9 +48,9 @@ const DeleteTaskModal = ({ open, handleClose, fetchData, id }: any) => {
             outline: "none",
           }}
         >
-          <div className="lg:w-[525px] w-[90vw] bg-white min-h-[205px] max-h-[600px] lg:p-8 p-6 rounded-2xl flex flex-col gap-4 items-center overflow-auto">
+          <div className="lg:w-[425px] w-[90vw] bg-white min-h-[205px] max-h-[600px] lg:p-8 p-6 rounded-2xl flex flex-col gap-4 items-center overflow-auto">
             <div className="flex justify-between items-center w-full">
-              <Typography variant="h5" sx={{ color: "#765996" }}>
+              <Typography variant="h6" sx={{ color: "#765996" }}>
                 Delete Task
               </Typography>
               <img
@@ -61,7 +61,7 @@ const DeleteTaskModal = ({ open, handleClose, fetchData, id }: any) => {
               />
             </div>
 
-            <div className="text-2xl font-medium flex justify-start py-6">
+            <div className="text-lg text-start font-medium border p-2 w-full rounded">
               Are you sure you want to delete task?
             </div>
 

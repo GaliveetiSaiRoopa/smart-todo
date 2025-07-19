@@ -51,7 +51,7 @@ const AddTaskModal = ({ open, handleClose, fetchData }: any) => {
       updatedAt: Date.now(),
     };
     axios
-      .post("http://localhost:3001/tasks", payload)
+      .post("https://smart-todo-ml27.onrender.com/tasks", payload)
       .then((response) => {
         console.log(response);
         showToastMessage("Successfully Created Task", "success");
