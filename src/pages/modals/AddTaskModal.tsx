@@ -8,6 +8,7 @@ import { Dayjs } from "dayjs";
 import PrimaryBtn from "../../components/common/PrimaryBtn";
 import axios from "axios";
 import { showToastMessage } from "../../utils/helper";
+import moment from "moment";
 
 const style = {
   position: "absolute",
@@ -51,8 +52,8 @@ const AddTaskModal = ({ open, handleClose, fetchData }: any) => {
       description: params?.description,
       deadline: params?.deadline,
       isCompleted: false,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
+      createdAt: moment(),
+      updatedAt: moment(),
     };
     axios
       .post("https://smart-todo-ml27.onrender.com/tasks", payload)
@@ -129,13 +130,7 @@ const AddTaskModal = ({ open, handleClose, fetchData }: any) => {
                       backgroundColor: "white",
                       borderRadius: "8px",
                       "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#000000", // default
-                      },
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#000000", // hover
-                      },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#000000", // focus
+                        borderColor: "#000000",
                       },
                     },
                   }}

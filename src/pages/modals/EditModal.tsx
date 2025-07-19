@@ -8,6 +8,7 @@ import dayjs, { Dayjs } from "dayjs";
 import PrimaryBtn from "../../components/common/PrimaryBtn";
 import axios from "axios";
 import { showToastMessage } from "../../utils/helper";
+import moment from "moment";
 
 const style = {
   position: "absolute",
@@ -59,7 +60,7 @@ const EditModal = ({ open, handleClose, fetchData, data, id }: any) => {
       deadline: params?.deadline,
       isCompleted: false,
       createdAt: data?.createdAt,
-      updatedAt: Date.now(),
+      updatedAt: moment(),
     };
 
     if (!params?.title || !params?.description || !params?.deadline) {

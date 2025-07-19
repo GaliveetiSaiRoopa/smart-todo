@@ -9,6 +9,7 @@ import DeleteTaskModal from "./modals/DeleteTaskModal";
 import { showToastMessage } from "../utils/helper";
 import dayjs from "dayjs";
 
+
 const filters = [
   { name: "All" },
   { name: "Ongoing" },
@@ -109,6 +110,8 @@ const ToDoListing = () => {
   const [todoList, setTodoList] = useState<any>([]);
   const [taskFilters, setTaskFilters] = useState("All");
   const [addTask, setAddTask] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [editTask, setEditTask] = useState({
     isOpen: false,
     data: {},
@@ -157,21 +160,36 @@ const ToDoListing = () => {
       .catch((err) => console.log(err));
   };
 
+
   const getFilteredTasks = () => {
     const now = moment();
-    return todoList.filter((task: any) => {
+
+    let filtered = todoList.filter((task: any) => {
       const deadline = moment(task.deadline);
-      switch (taskFilters) {
-        case "Ongoing":
-          return !task.isCompleted && deadline.isAfter(now);
-        case "Success":
-          return task.isCompleted;
-        case "Failure":
-          return !task.isCompleted && deadline.isBefore(now);
-        default:
-          return true;
-      }
+      const matchesFilter =
+        taskFilters === "All" ||
+        (taskFilters === "Ongoing" &&
+          !task.isCompleted &&
+          deadline.isAfter(now)) ||
+        (taskFilters === "Success" && task.isCompleted) ||
+        (taskFilters === "Failure" &&
+          !task.isCompleted &&
+          deadline.isBefore(now));
+
+      const matchesSearch =
+        task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        task.description?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      return matchesFilter && matchesSearch;
     });
+
+    filtered.sort((a: any, b: any) => {
+      const timeA = moment(a.deadline).valueOf();
+      const timeB = moment(b.deadline).valueOf();
+      return sortOrder === "asc" ? timeA - timeB : timeB - timeA;
+    });
+
+    return filtered;
   };
 
   useEffect(() => {
@@ -191,10 +209,6 @@ const ToDoListing = () => {
   return (
     <div className="bg-[#ffffff] min-h-screen w-full flex flex-col lg:gap-8 gap-4 lg:px-20 px-6 overflow-y-scroll">
       <div className="flex justify-between lg:pt-10 lg:pb-2 py-6 items-center">
-        {/* <Typography variant="h4" sx={{ color: "#765996" }}>
-          Smart Todo
-        </Typography> */}
-
         <h1 className="font-serif lg:text-4xl text-2xl font-semibold text-[#765996]">
           Smart Todo
         </h1>
@@ -207,9 +221,27 @@ const ToDoListing = () => {
       </div>
 
       <div className="flex flex-col lg:gap-4 gap-3">
-        <h1 className="font-serif lg:text-3xl text-xl font-medium text-[#765996]">
-          Task List ({filteredTasks.length})
-        </h1>
+        <div className="flex md:flex-row flex-col md:gap-6 gap-2 md:items-center md:justify-between">
+          <h1 className="font-serif lg:text-3xl text-xl font-medium text-[#765996]">
+            Task List ({filteredTasks.length})
+          </h1>
+          <div className="flex items-center lg:gap-6 gap-3">
+            <input
+              type="text"
+              placeholder="Search tasks..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="border border-gray-300 rounded lg:py-3 px-2 py-2 w-full md:text-lg"
+            />
+            <button
+              onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+              className="bg-[#765996] text-white lg:py-3 py-2 rounded w-full text-sm md:text-base"
+            >
+              Sort by Deadline ({sortOrder === "asc" ? "Asc" : "Desc"})
+            </button>
+          </div>
+        </div>
+
         <div className="flex gap-6">
           {filters.map((item) => (
             <button

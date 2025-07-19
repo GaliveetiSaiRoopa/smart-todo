@@ -15,5 +15,5 @@ server.use(router);
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
-  console.log(`✅ JSON Server running at http://localhost:${PORT}`);
+  console.log(`JSON Server running at http://localhost:${PORT}`);
 });
